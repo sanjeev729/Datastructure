@@ -1,0 +1,4 @@
+# Datastructure
+Arrays
+LinkedLists
+Trees
