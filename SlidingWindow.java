@@ -1,49 +1,48 @@
-package arrays;
-
-import java.util.HashMap;
+package dp;
 
 public class SlidingWindow {
 
-	public static String minWindow(String s, String t) {
-		HashMap<Character, Integer> hmap = new HashMap<Character, Integer>();
+	public static void slidingWindow(int arr[], int n, int k) {
+		int j, max;
 
-		for (char ch : t.toCharArray()) {
-			hmap.put(ch, hmap.getOrDefault(ch, 0) + 1);
-		}
-		int counter = hmap.size();
-		int begin = 0, end = 0, len = Integer.MAX_VALUE;
-		String ans = "";
-		while (end < s.length()) {
-			char endChar = s.charAt(end);
-			Integer count = hmap.get(endChar);
-			if (count != null) {
-				hmap.put(endChar, count - 1);
-				if (hmap.get(endChar) == 0)
-					counter--;
-			}
-			end++;
+		for (int i = 0; i <= n - k; i++) {
 
-			while (counter == 0) {
-				char c = s.charAt(begin);
-				if (hmap.get(c) != null) {
-					hmap.put(c, hmap.get(c) + 1);
-					if (hmap.get(c) > 0)
-						counter++;
-				}
-				if (end - begin < len) {
-					len = end - begin;
-					ans = s.substring(begin, begin + len);
-				}
-				begin++;
+			max = arr[i];
+
+			for (j = 1; j < k; j++) {
+				if (arr[i + j] > max)
+					max = arr[i + j];
 			}
+			System.out.print(max + " ");
 		}
-		return ans;
 	}
 
-	public static void main(String[] args) {
-		String str = "this is a test string";
-		String pat = "tist";
+	public static void slidingWindowKwithoutoverlap(int arr[], int n, int k) {
+		int  max;
+		for (int i = 0; i < n; i += k )
+	    {   
+			 max=arr[i];
+			
+	        int left = i;
+	 
+	        // to handle case when k + m is not multiple of n
+	        int right = Math.min(i + k - 1, n - 1);
+	 
+	        // reverse the sub-array [left, right]
+	        while (left < right) {
+				if(arr[left]>max)
+					max=arr[left];
+				left++;
+			
+			}
+	        System.out.println(max);
+	    }
+	}
 
-		System.out.print("Smallest window is :  n" + minWindow(str, pat));
+	public static void main(String args[]) {
+		int arr[] = { 1, 101, 2, 3, 100, 4 };
+		slidingWindow(arr, arr.length, 3);
+		System.out.println();
+		slidingWindowKwithoutoverlap(arr, arr.length,2 );
 	}
 }
